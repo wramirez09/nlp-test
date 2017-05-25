@@ -1,0 +1,14 @@
+{
+  "name": "nlp",
+  "version": "1.0.0",
+  "description": "nlp api calls ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Will Ramirez <william.ramirez@designory.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.15.3"
+  }
+}
