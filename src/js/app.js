@@ -46,7 +46,7 @@
         if (dataValue == "greeting") {
             $("#responde").html("Hello to you")
         } else if (dataValue == "farewell") {
-            $("#responde").html("so long");
+            // $("#responde").html("so long");
         } else {}
 
 
@@ -57,6 +57,51 @@
         if (data.entities.bye[0].value !== false) {
             $("#responde").html("good bye");
         }
+    };
+
+    function convertTemp(temp) {
+        return (9 / 5) * (temp - 273) + 23;
+    };
+
+    function getWeather(coords) {
+        console.log("getting the wheather", coords);
+        // debugger;
+        $.ajax({
+            url: 'http://api.openweathermap.org/data/2.5/weather',
+            data: {
+                'lat': coords.latitude,
+                'lon': coords.longitude,
+                'appid': 'bc03930044b867aed3944e46500d822c'
+            },
+            success: function(data) {
+                console.log("wheather", data.main)
+
+
+                $("#responde").html("weather:" + " " + convertTemp(data.main.temp));
+
+            }
+        });
+    };
+
+    function processLocation(pos) {
+        var coords = pos.coords
+
+        if (pos && pos.coords) {
+            $("#responde").html(`<strong>Latitude:</strong> ${coords.latitude} <br /> <strong>Longitude:</strong> ${coords.longitude} `);
+            getWeather(coords);
+        } else {
+            console.log("no location data");
+        }
+
+    };
+
+    function getuserlocation(msg) {
+        var options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        };
+        navigator.geolocation.getCurrentPosition(processLocation);
     };
 
     function checkResponseType(response) {
@@ -71,8 +116,13 @@
 
             console.log("its a date time", response.entities.datetime[0].value.toString());
             var nowdate = new Date(response.entities.datetime[0].value.toString());
-            $("#responde").html("time:" + " " + nowdate)
+            $("#responde").html("time:" + " " + nowdate.toLocaleString())
+        } else if (response.entities.location) {
+            $("#responde").html("please wait while I retrieve that info")
+            getuserlocation("test");
         }
+
+
     };
 
 
