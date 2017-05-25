@@ -45,9 +45,15 @@
         var dataValue = data[0].value.trim();
         if (dataValue == "greeting") {
             $("#responde").html("Hello to you")
+
         } else if (dataValue == "farewell") {
-            // $("#responde").html("so long");
-        } else {}
+
+            $("#responde").html("so long");
+
+        } else if (dataValue == "weather") {
+            console.log("asking for the weather");
+            getuserlocation();
+        }
 
 
     };
@@ -74,10 +80,10 @@
                 'appid': 'bc03930044b867aed3944e46500d822c'
             },
             success: function(data) {
-                console.log("wheather", data.main)
+                console.log("weather data object", data)
 
 
-                $("#responde").html("weather:" + " " + convertTemp(data.main.temp));
+                $("#responde").html(data.name + " " + Math.round(convertTemp(data.main.temp)) + "<sup>o</sup>" + '<br />' + " " + data.weather[0].description);
 
             }
         });
@@ -115,10 +121,15 @@
         } else if (response.entities.datetime) {
 
             console.log("its a date time", response.entities.datetime[0].value.toString());
+
             var nowdate = new Date(response.entities.datetime[0].value.toString());
+
             $("#responde").html("time:" + " " + nowdate.toLocaleString())
+
         } else if (response.entities.location) {
+
             $("#responde").html("please wait while I retrieve that info")
+
             getuserlocation("test");
         }
 
