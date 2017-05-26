@@ -3,6 +3,7 @@
     var typingTimer; //timer identifier
     var doneTypingInterval = 1000; //time in ms, 5 second for example
     var $input = $('#input');
+    var isWeather = false;
 
     //on keyup, start the countdown
     $input.on('keyup', function() {
@@ -17,12 +18,12 @@
 
     function doneTyping() {
         var userMessage = $input.val();
-        apiCall(userMessage);
+        callWitAi(userMessage);
     }
 
     var $form = $('#form');
 
-    function apiCall(msg) {
+    function callWitAi(msg) {
 
         $.ajax({
             url: 'https://api.wit.ai/message',
@@ -41,9 +42,13 @@
         });
     }
 
+
     function checkForIntent(data) {
+
         var dataValue = data[0].value.trim();
+
         if (dataValue == "greeting") {
+
             $("#responde").html("Hello to you")
 
         } else if (dataValue == "farewell") {
@@ -51,16 +56,19 @@
             $("#responde").html("so long");
 
         } else if (dataValue == "weather") {
-            console.log("asking for the weather");
+
+            isWeather = true;
             getuserlocation();
+
         }
-
-
     };
 
     function checkForBye(data) {
+
         console.log(data.entities.bye[0].value, "bye data");
+
         if (data.entities.bye[0].value !== false) {
+
             $("#responde").html("good bye");
         }
     };
@@ -70,8 +78,9 @@
     };
 
     function getWeather(coords) {
+
         console.log("getting the wheather", coords);
-        // debugger;
+
         $.ajax({
             url: 'http://api.openweathermap.org/data/2.5/weather',
             data: {
@@ -89,30 +98,50 @@
         });
     };
 
-    function processLocation(pos) {
+    function processLocation(pos, msg) {
         var coords = pos.coords
 
-        if (pos && pos.coords) {
-            $("#responde").html(`<strong>Latitude:</strong> ${coords.latitude} <br /> <strong>Longitude:</strong> ${coords.longitude} `);
+        if (pos && pos.coords && isWeather) {
+
             getWeather(coords);
-        } else {
-            console.log("no location data");
+
+        } else if (pos && pos.coords) {
+
+            printLocation(coords);
         }
 
     };
 
-    function getuserlocation(msg) {
+
+    function printLocation(coords) {
+        $("#responde").html(`<strong>Latitude:</strong> ${coords.latitude} <br /> <strong>Longitude:</strong> ${coords.longitude} `);
+    }
+
+    function getuserlocation(cb) {
+
         var options = {
             enableHighAccuracy: true,
-            timeout: 5000,
+            timeout: 0,
             maximumAge: 0
         };
-        navigator.geolocation.getCurrentPosition(processLocation);
+
+        if (!navigator.geolocation) {
+
+            alert("please update your brower")
+
+
+        } else {
+
+            navigator.geolocation.getCurrentPosition(processLocation);
+
+        }
+
     };
 
     function checkResponseType(response) {
 
         if (response.entities.intent) {
+            console.log("intent", response.entities.intent);
             checkForIntent(response.entities.intent);
 
         } else if (response.entities.bye) {
@@ -127,10 +156,10 @@
             $("#responde").html("time:" + " " + nowdate.toLocaleString())
 
         } else if (response.entities.location) {
-
+            isWeather = false;
             $("#responde").html("please wait while I retrieve that info")
 
-            getuserlocation("test");
+            getuserlocation();
         }
 
 
