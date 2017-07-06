@@ -1,9 +1,9 @@
 (function() {
 
-    var typingTimer; //timer identifier
-    var doneTypingInterval = 1000; //time in ms, 5 second for example
-    var $input = $('#input');
-    var isWeather = false;
+    var typingTimer, //timer identifier
+        doneTypingInterval = 1000, //time in ms, 5 second for example
+        $input = $('#input'),
+        isWeather = false;
 
     //on keyup, start the countdown
     $input.on('keyup', function() {
@@ -58,6 +58,9 @@
         } else if (dataValue == "weather") {
 
             isWeather = true;
+
+            $("#responde").html("please wait while I retrieve that info");
+
             getuserlocation();
 
         }
