@@ -97,6 +97,10 @@
 
                 $("#responde").html(data.name + " " + Math.round(convertTemp(data.main.temp)) + "<sup>o</sup>" + '<br />' + " " + data.weather[0].description);
 
+            },
+
+            error: function(err){
+                console.log("error", err);
             }
         });
     };
