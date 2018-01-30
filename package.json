@@ -13,7 +13,10 @@
   },
   "author": "Will Ramirez <william.ramirez@designory.com>",
   "license": "ISC",
+    "dependencies": {
+      "express": "^4.15.3"
+    },      
   "devDependencies": {
-    "express": "^4.15.3"
+    
   }
 }
