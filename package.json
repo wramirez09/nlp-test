@@ -3,8 +3,14 @@
   "version": "1.0.0",
   "description": "nlp api calls ",
   "main": "index.js",
+  "engines": {
+    "node": "6.9.4",
+    "npm": "3.10.10"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js && gulp",
+    "postinstall": "gulp default"
   },
   "author": "Will Ramirez <william.ramirez@designory.com>",
   "license": "ISC",
