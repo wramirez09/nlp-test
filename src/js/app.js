@@ -1,4 +1,4 @@
-(function() {
+(function () {
 
     var typingTimer, //timer identifier
         doneTypingInterval = 1000, //time in ms, 5 second for example
@@ -6,13 +6,13 @@
         isWeather = false;
 
     //on keyup, start the countdown
-    $input.on('keyup', function() {
+    $input.on('keyup', function () {
         clearTimeout(typingTimer);
         typingTimer = setTimeout(doneTyping, doneTypingInterval);
     });
 
     //on keydown, clear the countdown 
-    $input.on('keydown', function() {
+    $input.on('keydown', function () {
         clearTimeout(typingTimer);
     });
 
@@ -34,8 +34,8 @@
             },
             dataType: 'jsonp',
             method: 'GET',
-            success: function(response) {
-                console.log("response", response)
+            success: function (response) {
+
                 checkResponseType(response);
 
             }
@@ -45,6 +45,8 @@
 
     function checkForIntent(data) {
 
+
+        console.log("data value ", data)
         var dataValue = data[0].value.trim();
 
         if (dataValue == "greeting") {
@@ -91,7 +93,7 @@
                 'lon': coords.longitude,
                 'appid': 'bc03930044b867aed3944e46500d822c'
             },
-            success: function(data) {
+            success: function (data) {
                 console.log("weather data object", data)
 
 
@@ -99,7 +101,7 @@
 
             },
 
-            error: function(err){
+            error: function (err) {
                 console.log("error", err);
             }
         });
@@ -134,19 +136,19 @@
 
         if (!navigator.geolocation) {
 
-            alert("please update your brower")
+            alert("please update your browser");
 
 
         } else {
 
-            navigator.geolocation.getCurrentPosition(processLocation);
+            return navigator.geolocation.getCurrentPosition(processLocation);
 
         }
 
     };
 
     function checkResponseType(response) {
-
+        console.log("checkResponseType", response)
         if (response.entities.intent) {
             console.log("intent", response.entities.intent);
             checkForIntent(response.entities.intent);
@@ -162,7 +164,7 @@
 
             $("#responde").html("time:" + " " + nowdate.toLocaleString())
 
-        } else if (response.entities.location) {
+        } else if (response.entities.local_search_query) {
             isWeather = false;
             $("#responde").html("please wait while I retrieve that info")
 
