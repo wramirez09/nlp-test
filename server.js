@@ -4,6 +4,6 @@ var app = express();
 
 app.use(express.static('src'));
 
-app.listen(3105, function(req, res) {
-    console.log('app listening on port 3105!')
+app.listen(process.env.PORT || 3180, () => {
+    console.log(colors.green(`[mizer] Listening on port ${process.env.PORT || 3180}`));
 });
