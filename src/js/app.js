@@ -87,7 +87,7 @@
         console.log("getting the wheather", coords);
 
         $.ajax({
-            url: 'http://api.openweathermap.org/data/2.5/weather',
+            url: 'https://api.openweathermap.org/data/2.5/weather',
             data: {
                 'lat': coords.latitude,
                 'lon': coords.longitude,
