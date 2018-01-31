@@ -13,10 +13,12 @@
   },
   "author": "Will Ramirez <william.ramirez@designory.com>",
   "license": "ISC",
-    "dependencies": {
-      "express": "^4.15.3"
-    },      
-  "devDependencies": {
-    
-  }
+  "dependencies": {
+    "axios": "^0.17.1",
+    "axios-jsonp-pro": "^1.0.1",
+    "express": "^4.15.3",
+    "node-wit": "^4.3.0",
+    "querystring": "^0.2.0"
+  },
+  "devDependencies": {}
 }

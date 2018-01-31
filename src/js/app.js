@@ -26,18 +26,18 @@
     function callWitAi(msg) {
 
         $.ajax({
-            url: 'https://api.wit.ai/message',
+            url: '/goToWit/',
             data: {
-                'q': msg,
-                'v': '20170519',
-                'access_token': 'SOAPDPJ3EQB2LLHLTLUQ57YOSXTTEARL'
+                'q': msg
             },
-            dataType: 'jsonp',
             method: 'GET',
             success: function (response) {
-
+                console.log(response, "response")
                 checkResponseType(response);
 
+            },
+            error: function (error) {
+                console.log("error", error)
             }
         });
     }
@@ -46,8 +46,9 @@
     function checkForIntent(data) {
 
 
-        console.log("data value ", data)
+
         var dataValue = data[0].value.trim();
+        console.log("data value ", dataValue)
 
         if (dataValue == "greeting") {
 
@@ -87,17 +88,18 @@
         console.log("getting the wheather", coords);
 
         $.ajax({
-            url: 'https://api.openweathermap.org/data/2.5/weather',
+            url: '/getWeather/',
             data: {
                 'lat': coords.latitude,
                 'lon': coords.longitude,
                 'appid': 'bc03930044b867aed3944e46500d822c'
             },
             success: function (data) {
-                console.log("weather data object", data)
 
-
-                $("#responde").html(data.name + " " + Math.round(convertTemp(data.main.temp)) + "<sup>o</sup>" + '<br />' + " " + data.weather[0].description);
+                let dataObj = JSON.parse(data)
+                console.log("weather data object", dataObj)
+                
+                $("#responde").html(dataObj.name + " " + Math.round(convertTemp(dataObj.main.temp)) + "<sup>o</sup>" + '<br />' + " " + dataObj.weather[0].description);
 
             },
 
