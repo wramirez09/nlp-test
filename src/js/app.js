@@ -92,11 +92,11 @@
             data: {
                 'lat': coords.latitude,
                 'lon': coords.longitude,
-                'appid': 'bc03930044b867aed3944e46500d822c'
             },
             success: function (data) {
 
-                let dataObj = JSON.parse(data)
+                let dataObj = JSON.parse(data);
+
                 console.log("weather data object", dataObj)
                 
                 $("#responde").html(dataObj.name + " " + Math.round(convertTemp(dataObj.main.temp)) + "<sup>o</sup>" + '<br />' + " " + dataObj.weather[0].description);
@@ -140,13 +140,11 @@
 
             alert("please update your browser");
 
-
         } else {
 
             return navigator.geolocation.getCurrentPosition(processLocation);
 
         }
-
     };
 
     function checkResponseType(response) {
@@ -172,10 +170,6 @@
 
             getuserlocation();
         }
-
-
     };
-
-
 
 })();

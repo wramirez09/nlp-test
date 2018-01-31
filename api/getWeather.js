@@ -5,13 +5,16 @@ module.exports.getWeather = function (req, res) {
 
 
     axios.get("https://api.openweathermap.org/data/2.5/weather", {
-        params: req.query
+        params: {
+            'lat': req.query.lat,
+            'lon': req.query.lon,
+            'appid': 'bc03930044b867aed3944e46500d822c'
+        }
     })
     .then((response)=>{
 
-        console.log("response", response.data);
-        
 
+    
         let jsondata = JSON.stringify(response.data)
         res.send(jsondata);
 
