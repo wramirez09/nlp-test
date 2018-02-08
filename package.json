@@ -16,7 +16,9 @@
   "dependencies": {
     "axios": "^0.17.1",
     "axios-jsonp-pro": "^1.0.1",
+    "dotenv": "^5.0.0",
     "express": "^4.15.3",
+    "node-where": "^1.1.0",
     "node-wit": "^4.3.0",
     "querystring": "^0.2.0"
   },

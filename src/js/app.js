@@ -1,30 +1,40 @@
 (function () {
-
     var typingTimer, //timer identifier
         doneTypingInterval = 1000, //time in ms, 5 second for example
         $input = $('#input'),
         isWeather = false;
-
     //on keyup, start the countdown
-    $input.on('keyup', function () {
-        clearTimeout(typingTimer);
-        typingTimer = setTimeout(doneTyping, doneTypingInterval);
-    });
-
-    //on keydown, clear the countdown 
-    $input.on('keydown', function () {
-        clearTimeout(typingTimer);
-    });
-
-    function doneTyping() {
-        var userMessage = $input.val();
-        callWitAi(userMessage);
+    function loader(isLoaderShown){
+        if(isLoaderShown){   
+            $(".loader").show();
+        }
+        else if(isLoaderShown === false){
+            $(".loader").hide();
+        }
     }
+    function getuserlocation() {
+        function success(position) {
+                if(isWeather){
+                    getWeather(position);
+                }
+                else{
+                    return position;
+                }
+            }
+            function error() {
+                console.log("Unable to retrieve your location");
+            }
+            return navigator.geolocation.getCurrentPosition(success, error);
+        }
 
-    var $form = $('#form');
-
+    // event listener and handler for submit button
+    $(".nlp-app__submitBtn").on("click",function(e){
+        e.preventDefault();
+        loader(true);
+        $("#responde").html("");
+        callWitAi($(".nlp__inputText").val());
+    })
     function callWitAi(msg) {
-
         $.ajax({
             url: '/goToWit/',
             data: {
@@ -32,8 +42,23 @@
             },
             method: 'GET',
             success: function (response) {
-                console.log(response, "response")
-                checkResponseType(response);
+                if (response.attributes) {
+                    loader(false);
+                    for (key in response.attributes) {
+                        // print all the local info returned from the api
+                        $("#responde").append("<div class='panel panel-default'><p class='panel-body'>" + "<b>" + key + ":</b> " + response.attributes[key] + "</p></div>").fadeIn("slow");
+                    }
+                }
+                else if (response[0].value == "weather") {
+                    var cords;
+                    isWeather = true;
+                    getuserlocation();
+                }
+                else if(response[0].value = "greeting"){
+                    console.log("response", response[0]);
+                    $("#responde").append("<h1>hello</h1>")
+                    loader(false);
+                }
 
             },
             error: function (error) {
@@ -41,66 +66,41 @@
             }
         });
     }
-
-
-    function checkForIntent(data) {
-
-
-
-        var dataValue = data[0].value.trim();
-        console.log("data value ", dataValue)
-
-        if (dataValue == "greeting") {
-
-            $("#responde").html("Hello to you")
-
-        } else if (dataValue == "farewell") {
-
-            $("#responde").html("so long");
-
-        } else if (dataValue == "weather") {
-
-            isWeather = true;
-
-            $("#responde").html("please wait while I retrieve that info");
-
-            getuserlocation();
-
-        }
-    };
-
-    function checkForBye(data) {
-
-        console.log(data.entities.bye[0].value, "bye data");
-
-        if (data.entities.bye[0].value !== false) {
-
-            $("#responde").html("good bye");
-        }
-    };
-
     function convertTemp(temp) {
         return (9 / 5) * (temp - 273) + 23;
     };
-
+    function printValues(obj) {
+        loader(false);
+        $("#responde").html("");
+        for (var key in obj) {
+            if (typeof obj[key] === "object" && obj[key] !== null) {
+                printObj(obj[key]);
+            } else {
+                $("#responde").append(key + ":" + obj[key] + "<br/>");
+                
+            }
+        }
+    }
+    function printObj(obj) {
+        for (var key in obj) {
+            if (typeof obj[key] === "object") {
+                printObj(obj[key]);
+            } else {
+                $("#responde").append(key + ":" + obj[key] + "<br/>");
+            }
+        }
+    }
     function getWeather(coords) {
-
-        console.log("getting the wheather", coords);
-
         $.ajax({
             url: '/getWeather/',
             data: {
-                'lat': coords.latitude,
-                'lon': coords.longitude,
+                'lat': coords.coords.latitude,
+                'lon': coords.coords.longitude,
             },
             success: function (data) {
-
                 let dataObj = JSON.parse(data);
-
                 console.log("weather data object", dataObj)
-                
-                $("#responde").html(dataObj.name + " " + Math.round(convertTemp(dataObj.main.temp)) + "<sup>o</sup>" + '<br />' + " " + dataObj.weather[0].description);
-
+                printValues(dataObj);
             },
 
             error: function (err) {
@@ -108,68 +108,7 @@
             }
         });
     };
-
-    function processLocation(pos, msg) {
-        var coords = pos.coords
-
-        if (pos && pos.coords && isWeather) {
-
-            getWeather(coords);
-
-        } else if (pos && pos.coords) {
-
-            printLocation(coords);
-        }
-
-    };
-
-
     function printLocation(coords) {
         $("#responde").html(`<strong>Latitude:</strong> ${coords.latitude} <br /> <strong>Longitude:</strong> ${coords.longitude} `);
     }
-
-    function getuserlocation(cb) {
-
-        var options = {
-            enableHighAccuracy: true,
-            timeout: 0,
-            maximumAge: 0
-        };
-
-        if (!navigator.geolocation) {
-
-            alert("please update your browser");
-
-        } else {
-
-            return navigator.geolocation.getCurrentPosition(processLocation);
-
-        }
-    };
-
-    function checkResponseType(response) {
-        console.log("checkResponseType", response)
-        if (response.entities.intent) {
-            console.log("intent", response.entities.intent);
-            checkForIntent(response.entities.intent);
-
-        } else if (response.entities.bye) {
-
-            checkForBye(response);
-        } else if (response.entities.datetime) {
-
-            console.log("its a date time", response.entities.datetime[0].value.toString());
-
-            var nowdate = new Date(response.entities.datetime[0].value.toString());
-
-            $("#responde").html("time:" + " " + nowdate.toLocaleString())
-
-        } else if (response.entities.local_search_query) {
-            isWeather = false;
-            $("#responde").html("please wait while I retrieve that info")
-
-            getuserlocation();
-        }
-    };
-
 })();

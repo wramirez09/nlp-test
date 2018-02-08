@@ -13,8 +13,6 @@ module.exports.getWeather = function (req, res) {
     })
     .then((response)=>{
 
-
-    
         let jsondata = JSON.stringify(response.data)
         res.send(jsondata);
 

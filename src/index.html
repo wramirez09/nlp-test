@@ -5,6 +5,7 @@
     <meta content="width=device-width,initial-scale=1" name="viewport">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/app.css">
 </head>
 
 <body>
@@ -20,14 +21,16 @@
         </nav>
     </header>
     <section>
-        <div class="container">
+        <div class="container nlp-app">
             <div class="jumbotron">
-                <h3>say hello to me or good bye, you may also ask me for the weather or your own personal location using natural language</h3>
+                <h3>Natural Language Processing Test</h3>
                 <form>
                     <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">:)</span>
-                        <input type="text" class="form-control" placeholder="input" aria-describedby="basic-addon1" id="input">
+                        <span class="input-group-addon" id="nlp__inputText">:)</span>
+                        <input type="text" class="form-control nlp__inputText" placeholder="use natural language" aria-describedby="basic-addon1" id="input">
                     </div>
+                    <br />
+                    <input type="submit" value="send message" class="nlp-app__submitBtn btn btn-primary" />
                 </form>
             </div>
             <div class="panel panel-default">
@@ -39,7 +42,7 @@
             </div>
         </div>
     </section>
-
+    <div class="loader">Loading...</div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
