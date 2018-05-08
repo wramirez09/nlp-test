@@ -1,9 +1,18 @@
+// TO DO : add in babel refactor using es6 classes 
+
+
+
 (function () {
+
+    // add bg in the door 
+    addSplashBg();
+
+
+
     var typingTimer, //timer identifier
         doneTypingInterval = 1000, //time in ms, 5 second for example
         $input = $('#input'),
         isWeather = false;
-    //on keyup, start the countdown
     function loader(isLoaderShown){
         if(isLoaderShown){   
             $(".loader").show();
@@ -34,6 +43,7 @@
         $("#responde").html("");
         callWitAi($(".nlp__inputText").val());
     })
+    
     function callWitAi(msg) {
         $.ajax({
             url: '/goToWit/',
@@ -110,5 +120,22 @@
     };
     function printLocation(coords) {
         $("#responde").html(`<strong>Latitude:</strong> ${coords.latitude} <br /> <strong>Longitude:</strong> ${coords.longitude} `);
+    }
+
+
+    function addSplashBg(params) {
+        let unsplashUrl = "/getSplashBg/";
+
+        fetch(unsplashUrl)
+    
+        .then(function (response) {
+                return response.json();
+            })
+
+        .then(function (returned_data) {
+
+            let number = Math.floor(Math.random() * 10) + 1;
+            $('body').css('background-image', 'url(' + returned_data[number].urls.full + ')');
+        });
     }
 })();
