@@ -1,19 +1,8 @@
 
 
-
-
-/**
- * @param  {} data
- */
 class CheckEntityType  {
     constructor(wit_data){
-        this.witDataObject = wit_data,
-        this.init();
-        
-    }
-
-    init(){
-        
+        this.witDataObject = wit_data
     }
 
     getEntity(){
