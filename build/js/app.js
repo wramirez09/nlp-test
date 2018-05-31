@@ -1,18 +1,36 @@
 // TO DO : add in babel refactor using es6 classes 
 
 
-
 (function () {
 
     // add bg in the door 
     addSplashBg();
 
+    // toastr options 
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "1000",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
 
 
     var typingTimer, //timer identifier
         doneTypingInterval = 1000, //time in ms, 5 second for example
         $input = $('#input'),
         isWeather = false;
+        
     function loader(isLoaderShown){
         if(isLoaderShown){   
             $(".loader").show();
@@ -39,9 +57,11 @@
     // event listener and handler for submit button
     $(".nlp-app__submitBtn").on("click",function(e){
         e.preventDefault();
+        toastr.success($(".nlp__inputText").val())
         loader(true);
         $("#responde").html("");
         callWitAi($(".nlp__inputText").val());
+        
     })
     
     function callWitAi(msg) {
@@ -56,7 +76,8 @@
                     loader(false);
                     for (key in response.attributes) {
                         // print all the local info returned from the api
-                        $("#responde").append("<div class='panel panel-default'><p class='panel-body'>" + "<b>" + key + ":</b> " + response.attributes[key] + "</p></div>").fadeIn("slow");
+                        // $("#responde").append("<div class='panel panel-default'><p class='panel-body'>" + "<b>" + key + ":</b> " + response.attributes[key] + "</p></div>").fadeIn("slow");
+                        var responseDiv = document.querySelector("#responde");
                     }
                 }
                 else if (response[0].value == "weather") {
@@ -65,7 +86,6 @@
                     getuserlocation();
                 }
                 else if(response[0].value = "greeting"){
-                    console.log("response", response[0]);
                     $("#responde").append("<h1>hello</h1>")
                     loader(false);
                 }
@@ -87,6 +107,7 @@
                 printObj(obj[key]);
             } else {
                 $("#responde").append(key + ":" + obj[key] + "<br/>");
+              
                 
             }
         }
@@ -96,7 +117,25 @@
             if (typeof obj[key] === "object") {
                 printObj(obj[key]);
             } else {
-                $("#responde").append(key + ":" + obj[key] + "<br/>");
+                // $("#responde").append(key + ":" + obj[key] + "<br/>");
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-left",
+                    "preventDuplicates": true,
+                    "onclick": null,
+                    "showDuration": "1000",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr.warning(key + ":" + obj[key])
             }
         }
     }

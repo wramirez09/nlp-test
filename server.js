@@ -5,7 +5,7 @@ const gotToWitAi = require("./api/callWit");
 const getWeather = require("./api/getWeather");
 const getSplashBg = require("./api/getSplashBg");
 
-app.use(express.static('src'));
+app.use(express.static('public'));
 
 app.listen(process.env.PORT || 3181, () => {
     console.log(`Listening on port ${process.env.PORT || 3181}`);

@@ -25,7 +25,7 @@ module.exports.gotToWitAi = function (req, res) {
     })
 
     .then((entity) => {
-        console.log("this is an entity", entity);
+
         if (entity.local_search_query){
 
             const where = getuserlocation(req, res, entity.local_search_query)
