@@ -92,16 +92,22 @@ body{
     border-color: transparent;
 }
 
-.message-input{
+$inputFormHeight: 75px;
+form{
     position: fixed;
     bottom: 0;
-    border-radius: 0;
-    .form-control.nlp__inputText{
-        height: 75px;
-        font-weight: 300;
+    height: $inputFormHeight;
+    .message-input{
+  
+        border-radius: 0;
+        .form-control.nlp__inputText{
+            height: $inputFormHeight;
+            font-weight: 300;
+        }
+        
     }
-    
 }
+
 
 .nlp-app__submitBtn{
     position: absolute;
@@ -128,4 +134,11 @@ body{
         background: transparent;
         border: none;
     }   
+}
+
+
+// toastr overides
+
+#toast-container > .toast-success{
+    background-image: url("") !important;
 }

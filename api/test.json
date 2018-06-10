@@ -1,0 +1,6 @@
+{ local_search_query:
+   [ { suggested: true,
+       confidence: 0.93808,
+       value: 'hello',
+       type: 'value' } ],
+  greetings: [ { confidence: 0.99988770484656, value: 'true' } ] }

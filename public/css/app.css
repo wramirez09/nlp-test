@@ -76,13 +76,15 @@ body {
   border: none;
   border-color: transparent; }
 
-.message-input {
+form {
   position: fixed;
   bottom: 0;
-  border-radius: 0; }
-  .message-input .form-control.nlp__inputText {
-    height: 75px;
-    font-weight: 300; }
+  height: 75px; }
+  form .message-input {
+    border-radius: 0; }
+    form .message-input .form-control.nlp__inputText {
+      height: 75px;
+      font-weight: 300; }
 
 .nlp-app__submitBtn {
   position: absolute;
@@ -103,3 +105,6 @@ body {
   color: black;
   background: transparent;
   border: none; }
+
+#toast-container > .toast-success {
+  background-image: url("") !important; }

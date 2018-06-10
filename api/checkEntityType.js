@@ -16,6 +16,6 @@ class CheckEntityType  {
 
 }
 
-exports.checkEntityType = function(dataObject) {
+module.exports.checkEntityType = function(dataObject) {
     return new CheckEntityType(dataObject);
 }
