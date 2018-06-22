@@ -3,6 +3,7 @@ const checkType = require("./checkEntityType");
 const getuserlocation = require("./processLocation");
 require('dotenv').config();
 
+
 module.exports.gotToWitAi = function (req, res) {
 
 
@@ -13,32 +14,35 @@ module.exports.gotToWitAi = function (req, res) {
     client.message(req.query.q, {})
 
     .then((data) => {
-        console.log("data", data);
         // create object instance by passing in new data returned from wit promise 
         let checkdataType = checkType.checkEntityType(data);
 
         // grab entity from new object 
         let entity = checkdataType.getEntity();
-        console.log("new entity", entity);
         return entity
 
     })
 
     .then((entity) => {
+        // console.log("returned entiy", entity);
+    //     if (entity.bye) {
+    //         console.log("bye", entity.bye);
+    //         res.json(entity);
+    //     }
+    //    else if (entity.local_search_query){
+    //         // create instance of object
+    //         const where = getuserlocation(req, res, entity.local_search_query);
+    //         // uses response object to send results
+    //         where.getLocation();
 
-        if (entity.local_search_query && !entity.greetings){
+    //     }
+        
+    //     else if(entity.greetings ){
 
-            const where = getuserlocation(req, res, entity.local_search_query)
-            let location = where.getLocation();
+    //         console.log("this is greeting", entity.greetings);
 
-        }
-        else if(entity.greetings && !entity.local_search_query){
-
-            console.log("this is intent", entity.greetings);
-
-            res.json(entity);
-        }
-
+    //         res.json(entity.greetings);
+    //     }
 
     })
 

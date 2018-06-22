@@ -106,5 +106,13 @@ form {
   background: transparent;
   border: none; }
 
+#toast-container > .toast-success, #toast-container > .toast-warning {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 500; }
+
 #toast-container > .toast-success {
+  background-image: url("") !important; }
+
+#toast-container > .toast-warning {
   background-image: url("") !important; }

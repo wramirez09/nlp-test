@@ -136,9 +136,22 @@ form{
     }   
 }
 
+%repetedOverRides {
+    width: 100%;
+    font-size: 18px;
+    font-weight: 500;
+}
 
 // toastr overides
-
 #toast-container > .toast-success{
+    @extend %repetedOverRides;
     background-image: url("") !important;
+}
+#toast-container > .toast-warning{
+    @extend %repetedOverRides;
+    background-image: url("") !important;
+}
+
+.toast-message{
+
 }

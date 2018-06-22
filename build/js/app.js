@@ -25,9 +25,6 @@
         .then(function (returned_data) {
 
             let number = Math.floor(Math.random() * 10) + 1;
-            console.log("url", returned_data[number].urls.full.toString())
-            console.log("body tag", document.getElementsByTagName("body")[0])
-            // document.body.style.backgroundImage = "url(" + returned_data[number].urls.full.toString() + ' ")" ';
             document.body.style.backgroundImage = "url(" + returned_data[number].urls.full + ")";
         });
     }
@@ -44,10 +41,10 @@
         "positionClass": "toast-top-center",
         "preventDuplicates": true,
         "onclick": null,
-        "showDuration": "1000",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
+        "showDuration": "0",
+        "hideDuration": "0",
+        "timeOut": "0",
+        "extendedTimeOut": "0",
         "showEasing": "swing",
         "hideEasing": "linear",
         "showMethod": "fadeIn",
@@ -91,18 +88,20 @@
         
     // })
 
-    var submitButton = document.querySelector(config.selectors.submitButton);
-    
-    
-    console.log(submitButton, "submit");
+    const submitButton = document.querySelector(config.selectors.submitButton);
 
     submitButton.addEventListener("click", function(event){
         event.preventDefault();
         // console.log("submit clicked");
         var inputFieldValue = document.querySelector(config.selectors.inputField).value;
-        console.log("input value", inputFieldValue);
-        callWitAi(inputFieldValue);
-        toastr.success(inputFieldValue);
+        if(inputFieldValue){
+            callWitAi(inputFieldValue);
+            toastr.success(inputFieldValue);
+        }
+        else{
+            console.log("no input value");
+        }
+        
     })
     
     function callWitAi(msg) {
@@ -113,27 +112,34 @@
             },
             method: 'GET',
             success: function (response) {
-                if (response.attributes) {
-                    console.log(response.attributes);
-                    // loader(false);
-                    // for (key in response.attributes) {
-                    //     console.log(response.attributes[key], key)
-                        // print all the local info returned from the api
-                        // $("#responde").append("<div class='panel panel-default'><p class='panel-body'>" + "<b>" + key + ":</b> " + response.attributes[key] + "</p></div>").fadeIn("slow");
-                        // var responseDiv = document.querySelector("#responde");
-                    // }
+
+                console.log("response",response);
+
+                if(response.bye){
+
+                    console.log(response.bye);
+                    toastr.warning("so long")
                 }
-                else if (response[0].value == "weather") {
-                    console.log(response[0].value, "weather")
-                    // var cords;
-                    // isWeather = true;
-                    // getuserlocation();
+                else if (response.greetings) {
+
+                    console.log(response.greetings, "greetings")
+                    toastr.warning("how are you?")
                 }
-                else if(response[0].value = "greeting"){
-                    console.log(response[0].value, "greeting")
-                    // $("#responde").append("<h1>hello</h1>")
-                    // loader(false);
-                    toastr.warning("how are you!")
+                else if(response.attributes){
+
+                    console.log(response.attributes, "attributes");
+
+                    var content = "";
+                    for (key in response.attributes){
+                        //toastr.warning(key + ":" +  response.attributes[key]);
+                        content += key + ":" +  response.attributes[key] + "<br />"
+
+                    }
+
+                    toastr.warning(content);
+
+                    
+                   
                 }
 
             },

@@ -18,6 +18,7 @@
     "axios-jsonp-pro": "^1.0.1",
     "dotenv": "^5.0.1",
     "express": "^4.15.3",
+    "gulp-concat": "^2.6.1",
     "gulp-sourcemaps": "^2.6.4",
     "node-where": "^1.1.0",
     "node-wit": "^4.3.0",

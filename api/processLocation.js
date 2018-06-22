@@ -16,7 +16,7 @@ class GetUserLocation {
             where.is(searchThisLocation, (error, locationData) => {
 
                 if (locationData) {
-                    this.res.json(locationData);
+                this.res.json(locationData);
                 }
                 else if (error) {
                     console.log("error", error)
